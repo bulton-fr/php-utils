@@ -18,7 +18,7 @@
         "source": "https://github.com/bulton-fr/utils"
     },
     "require": {
-        "php": "^7.0.0"
+        "php": "^7.1.0"
     },
     "require-dev": {
         "atoum/atoum": "~3.3",
