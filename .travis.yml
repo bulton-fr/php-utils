@@ -1,0 +1,22 @@
+# see http://about.travis-ci.org/docs/user/languages/php/ for more hints
+language: php
+
+# list any PHP version you want to test against
+php:
+  - 7.1
+  - 7.2
+  - 7.3
+
+before_install:
+  - composer config -g github-oauth.github.com $GH_TOKEN
+
+before_script:
+  - composer install
+
+script:
+  - ./vendor/bin/atoum -c .atoum.php +verbose
+#  - ./vendor/bin/atoum -c .atoum.php -utr
+
+after_script:
+  ## Scrutinizer
+  - ./vendor/bin/ocular code-coverage:upload --format=php-clover clover.xml
