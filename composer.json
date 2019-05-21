@@ -2,7 +2,7 @@
     "name": "bulton-fr/utils",
     "type": "library",
     "description": "Some utils classes",
-    "homepage": "https://github.com/bulton-fr/utils",
+    "homepage": "https://github.com/bulton-fr/php-utils",
     "time": "2019-05-10",
     "license": "LGPL-3.0",
     "authors": [
@@ -14,8 +14,8 @@
     ],
     "support": {
         "email": "support@bulton.fr",
-        "issues": "https://github.com/bulton-fr/utils/issues",
-        "source": "https://github.com/bulton-fr/utils"
+        "issues": "https://github.com/bulton-fr/php-utils/issues",
+        "source": "https://github.com/bulton-fr/php-utils"
     },
     "require": {
         "php": "^7.1.0"
