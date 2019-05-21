@@ -26,6 +26,12 @@ Arguments are :
 
 If there is only the first argument, the color and style will not be defined and stay with shell configuration at this moment.
 
+After each message displayed, a call to the method `flush` is done.
+
+__`void protected static function flush()`__
+
+Call the php function `ob_flush()` if a buffer has been defined.
+
 ### To define color code to use in the shell
 
 __`int protected static function colorForShell(string $color)`__

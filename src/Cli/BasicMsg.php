@@ -12,9 +12,11 @@ class BasicMsg
         string $txtStyle = 'normal'
     ) {
         $nbArgs = func_num_args();
+
         if ($nbArgs === 1) {
             echo $msg;
-            ob_flush();
+            static::flush();
+
             return;
         }
         
@@ -22,7 +24,7 @@ class BasicMsg
         $txtColorCode = static::obtainTxtColorCode($txtColor);
         
         echo "\033[".$txtStyleCode.";".$txtColorCode."m".$msg."\033[0m";
-        ob_flush();
+        static::flush();
     }
     
     public static function displayMsgNL(
@@ -32,11 +34,22 @@ class BasicMsg
     ) {
         $nbArgs = func_num_args();
         if ($nbArgs === 1) {
-            static::displayMsg($msg."\n");
+            static::displayMsg($msg);
+            echo "\n";
+            static::flush();
             return;
         }
         
-        static::displayMsg($msg."\n", $txtColor, $txtStyle);
+        static::displayMsg($msg, $txtColor, $txtStyle);
+        echo "\n";
+        static::flush();
+    }
+
+    protected static function flush()
+    {
+        if (ob_get_status() !== []) {
+            ob_flush();
+        }
     }
     
     protected static function obtainTxtColorCode(string $txtColor): int
