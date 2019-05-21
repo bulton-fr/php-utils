@@ -77,6 +77,35 @@ class BasicMsg extends atoum
         ;
     }
 
+    public function testFlush()
+    {
+        $this->assert('test Cli::flush - prepare')
+            ->given($this->function->ob_flush = null)
+            ->given($callFlush = function () {
+                return static::flush();
+            })
+            ->and($callFlush = $callFlush->bindTo($this->mock, $this->mock))
+        ;
+
+        $this->assert('test Cli::flush - without buffer')
+            ->if($this->function->ob_get_status = [])
+            ->then
+            ->variable($callFlush())
+                ->isNull()
+            ->function('ob_flush')
+                ->never()
+        ;
+
+        $this->assert('test Cli::flush - with buffer')
+            ->if($this->function->ob_get_status = ['myBuffer'])
+            ->then
+            ->variable($callFlush())
+                ->isNull()
+            ->function('ob_flush')
+                ->once()
+        ;
+    }
+
     public function testDisplayMsg()
     {
         $this->assert('test Cli::displayMsg - prepare')
@@ -131,14 +160,14 @@ class BasicMsg extends atoum
             ->output(function () {
                 \bultonFr\Utils\Cli\BasicMsg::displayMsgNL('hi from unit-test !', 'yellow');
             })
-                ->isEqualTo("\033[0;33mhi from unit-test !\n\033[0m")
+                ->isEqualTo("\033[0;33mhi from unit-test !\033[0m\n")
         ;
 
         $this->assert('test Cli::displayMsgNL with a color and style')
             ->output(function () {
                 \bultonFr\Utils\Cli\BasicMsg::displayMsgNL('hi from unit-test !', 'green', 'bold');
             })
-                ->isEqualTo("\033[1;32mhi from unit-test !\n\033[0m")
+                ->isEqualTo("\033[1;32mhi from unit-test !\033[0m\n")
         ;
     }
 }
