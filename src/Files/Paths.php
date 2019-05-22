@@ -2,8 +2,13 @@
 
 namespace bultonFr\Utils\Files;
 
+use Exception;
+
 class Paths
 {
+    const EXCEP_ABS_REL_SAME_PATH = 203001;
+    const EXCEP_ABS_REL_NOT_COMMON = 203002;
+
     /**
      * Resolve the relative path for two abslute path
      *
@@ -17,7 +22,10 @@ class Paths
         string $destPath
     ): string {
         if ($srcPath === $destPath) {
-            return '';
+            throw new Exception(
+                'source path and dest path are same.',
+                static::EXCEP_ABS_REL_SAME_PATH
+            );
         }
 
         //Remove first slash to not have a empty string for key 0
@@ -52,7 +60,10 @@ class Paths
 
         //First item of paths is not same, no common between path.
         if ($notSameIdx === 0) {
-            return $destPath;
+            throw new Exception(
+                'source path and dest path have no common point at the beginning.',
+                static::EXCEP_ABS_REL_NOT_COMMON
+            );
         }
 
         $nbDestItem = count($destPathEx) - 1;
