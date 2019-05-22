@@ -165,11 +165,16 @@ class FileManager
      *
      * @param string $linkTarget The symlink target path
      * @param string $linkFile The symlink file path
+     * @param bool $tryRelative (default true) If system try to resolv paths
+     *  to use a relative path for target.
      *
      * @return void
      */
-    public function createSymLink(string $linkTarget, string $linkFile)
-    {
+    public function createSymLink(
+        string $linkTarget,
+        string $linkFile,
+        bool $tryRelative = true
+    ) {
         $this->sendMsgInLogger(
             'FileManager - Create symlink',
             [
@@ -191,11 +196,24 @@ class FileManager
                 static::EXCEP_LINK_TARGET_NOT_FOUND
             );
         }
+
+        $usedTarget = $linkTarget;
+        if ($tryRelative === true) {
+            try {
+                $usedTarget = Paths::absoluteToRelative($linkTarget, $linkFile);
+                $this->sendMsgInLogger(
+                    'FileManager - Create symlink - Use relative path',
+                    ['target' => $usedTarget]
+                );
+            } catch (Exception $e) {
+                $usedTarget = $linkTarget;
+            }
+        }
         
-        $status = symlink($linkTarget, $linkFile);
+        $status = symlink($usedTarget, $linkFile);
         if ($status === false) {
             throw new Exception(
-                'link create failed for '.$linkFile.' -> '.$linkTarget,
+                'link create failed for '.$linkFile.' -> '.$usedTarget,
                 static::EXCEP_LINK_CREATION_FAILED
             );
         }

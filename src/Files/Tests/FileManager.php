@@ -117,6 +117,8 @@ class FileManager extends atoum
         ;
 
         $this->assert('test Files\FileManager::createSymlink - creation success')
+            ->if($this->handler->clear())
+            ->then
             ->if($fileExistsMock->returnedValues = [false, true])
             ->and($this->function->symlink = true)
             ->then
@@ -140,7 +142,55 @@ class FileManager extends atoum
                 ])
         ;
 
+        $this->assert('test Files\FileManager::createSymlink - creation success with relative path')
+            ->if($this->handler->clear())
+            ->then
+            ->if($fileExistsMock->returnedValues = [false, true])
+            ->and($fileExistsMock->resetIdx())
+            ->and($this->function->symlink = true)
+            ->then
+            ->variable($this->mock->createSymlink('/var/www/target/file', '/var/www/dest/file'))
+                ->isNull()
+            ->function('symlink')
+                ->wasCalledWithArguments('../target/file', '/var/www/dest/file')
+                    ->once()
+            ->boolean($this->handler->hasDebug('FileManager - Create symlink'))
+                ->isTrue()
+            ->boolean($this->handler->hasDebug('FileManager - Create symlink - Use relative path'))
+                ->isTrue()
+            ->array($records = $this->handler->getRecords())
+            ->array($context = reset($records)['context'])
+                ->isEqualTo([
+                    'linkTarget' => '/var/www/target/file',
+                    'linkFile'   => '/var/www/dest/file'
+                ])
+            ->array($context = end($records)['context'])
+                ->isEqualTo([
+                    'target' => '../target/file'
+                ])
+        ;
+
+        $this->assert('test Files\FileManager::createSymlink - creation success without relative path')
+            ->if($this->handler->clear())
+            ->then
+            ->if($fileExistsMock->returnedValues = [false, true])
+            ->and($fileExistsMock->resetIdx())
+            ->and($this->function->symlink = true)
+            ->then
+            ->variable($this->mock->createSymlink('/var/www/target/file', '/var/www/dest/file', false))
+                ->isNull()
+            ->function('symlink')
+                ->wasCalledWithArguments('/var/www/target/file', '/var/www/dest/file')
+                    ->once()
+            ->boolean($this->handler->hasDebug('FileManager - Create symlink'))
+                ->isTrue()
+            ->boolean($this->handler->hasDebug('FileManager - Create symlink - Use relative path'))
+                ->isFalse()
+        ;
+
         $this->assert('test Files\FileManager::createSymlink - creation failed - link file exist')
+            ->if($this->handler->clear())
+            ->then
             ->if($fileExistsMock->returnedValues = [true, true])
             ->and($fileExistsMock->resetIdx())
             ->and($this->function->symlink = true)
@@ -160,6 +210,8 @@ class FileManager extends atoum
         ;
 
         $this->assert('test Files\FileManager::createSymlink - creation failed - target file not exist')
+            ->if($this->handler->clear())
+            ->then
             ->if($fileExistsMock->returnedValues = [false, false])
             ->and($fileExistsMock->resetIdx())
             ->and($this->function->symlink = true)
@@ -179,6 +231,8 @@ class FileManager extends atoum
         ;
 
         $this->assert('test Files\FileManager::createSymlink - creation failed - symlink call failed')
+            ->if($this->handler->clear())
+            ->then
             ->if($fileExistsMock->returnedValues = [false, true])
             ->and($fileExistsMock->resetIdx())
             ->and($this->function->symlink = false)
