@@ -1,5 +1,5 @@
 <?php
-require 'vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 use bultonFr\Utils\Cli\BasicMsg;
 use bultonFr\Utils\Files\FileManager;

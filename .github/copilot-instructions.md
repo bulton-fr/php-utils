@@ -12,7 +12,7 @@ For immediate development setup:
 composer install --no-dev --ignore-platform-reqs
 
 # 2. Validate everything works
-php validate.php
+php .github/copilot/validate.php
 
 # 3. Before making changes, always run
 composer validate
@@ -47,7 +47,7 @@ composer validate
 ## Validation
 
 ### Manual Testing (Recommended)
-Always validate changes with this test script (save as `validate.php`):
+Always validate changes with the provided test script (`.github/copilot/validate.php`):
 
 ```php
 <?php
@@ -79,10 +79,10 @@ echo "Relative path calculation: $relativePath\n";
 echo "\n=== All validations passed! ===\n";
 ```
 
-Run with: `php validate.php` (takes <1 second)
+Run with: `php .github/copilot/validate.php` (takes <1 second)
 
 ### Extended Validation (Complete Feature Test)
-For comprehensive testing, use this extended validation script:
+For comprehensive testing, use the provided extended validation script (`.github/copilot/extended_validate.php`):
 
 ```php
 <?php
@@ -218,8 +218,8 @@ echo "\n=== All extended validations passed! ===\n";
 - Test failures: Verify PHP version compatibility and use manual validation scripts
 
 ### Included Validation Scripts
-- `validate.php` - Basic functionality test (CLI, FileManager, Paths)
-- `extended_validate.php` - Comprehensive test including ReadDirectory and file operations
+- `.github/copilot/validate.php` - Basic functionality test (CLI, FileManager, Paths)
+- `.github/copilot/extended_validate.php` - Comprehensive test including ReadDirectory and file operations
 
 ### CI Integration
 - Travis CI configured for PHP 7.2-8.3 (expanded in PR #6)
