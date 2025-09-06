@@ -22,5 +22,4 @@ script:
 #  - ./vendor/bin/atoum -c .atoum.php -utr
 
 after_script:
-  ## Scrutinizer
-  - ./vendor/bin/ocular code-coverage:upload --format=php-clover clover.xml
+  # Coverage upload removed - scrutinizer dependency eliminated
