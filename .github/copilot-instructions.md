@@ -8,7 +8,7 @@ Always reference these instructions first and fallback to search or bash command
 
 For immediate development setup:
 ```bash
-# 1. Install basic dependencies (fast, no GitHub token needed)
+# 1. Install basic dependencies (fast, no external dependencies)
 composer install --no-dev --ignore-platform-reqs
 
 # 2. Validate everything works
@@ -17,30 +17,30 @@ php validate.php
 # 3. Before making changes, always run
 composer validate
 
-# 4. For full test suite (optional, may prompt for GitHub token):
+# 4. For full test suite (streamlined after PR #6):
 # composer install --ignore-platform-reqs
 ```
 
 ## Working Effectively
 
 ### Requirements and Setup
-- PHP 7.1+ required (composer.json constraint), but works with PHP 8.x using platform requirement overrides
-- Composer for dependency management
+- PHP 7.2+ required (composer.json constraint), supports PHP 7.2+ through 8.x using modern compatibility
+- Composer for dependency management (v2+ optimized configuration)
 - atoum testing framework for unit tests
 
 ### Bootstrap and Build Process
 - `composer install --no-dev --ignore-platform-reqs` -- Install production dependencies only (~5 seconds)
-- `composer install --ignore-platform-reqs` -- Install all dependencies including dev tools. NEVER CANCEL: May require GitHub token for some packages, can take 2-5 minutes with network delays. Set timeout to 300+ seconds.
+- `composer install --ignore-platform-reqs` -- Install all dependencies including dev tools. Much faster since PR #6 eliminated GitHub API rate limits. Set timeout to 180+ seconds.
 - Autoloader available at `vendor/autoload.php` after install
 
 ### Running Tests
-- IMPORTANT: Full test suite requires atoum framework installation which has PHP version compatibility issues
-- `./vendor/bin/atoum -c .atoum.php +verbose` -- Official test command. NEVER CANCEL: Can take 1-2 minutes. Set timeout to 180+ seconds.
+- Full test suite uses atoum framework with simplified configuration (coverage disabled after PR #6)
+- `./vendor/bin/atoum -c .atoum.php +verbose` -- Official test command. Set timeout to 120+ seconds.
 - Manual functionality testing via custom test script works reliably (see Validation section)
 
 ### Build Timing Expectations
 - Basic dependency install: 5-10 seconds
-- Full dependency install with platform overrides: 120-300 seconds (NEVER CANCEL - GitHub API rate limits cause delays)
+- Full dependency install: 60-180 seconds (Streamlined after PR #6 - reduced from 28 to 4 packages)
 - Manual functionality tests: <1 second
 - Composer validation: <5 seconds
 
@@ -176,9 +176,9 @@ echo "\n=== All extended validations passed! ===\n";
 ### Repo Structure
 ```
 .
-├── .atoum.php              # Test configuration
-├── .travis.yml             # CI configuration (PHP 7.1-7.3)
-├── composer.json           # Dependencies and autoload config
+├── .atoum.php              # Test configuration (coverage disabled after PR #6)
+├── .travis.yml             # CI configuration (PHP 7.2-8.3 after PR #6)
+├── composer.json           # Dependencies and autoload config (modernized in PR #6)
 ├── src/
 │   ├── Cli/
 │   │   ├── BasicMsg.php    # Colored terminal output utilities
@@ -201,9 +201,9 @@ echo "\n=== All extended validations passed! ===\n";
 - `bultonFr\Utils\Files\ReadDirectory`: Recursive directory traversal with customizable actions
 
 ### Working with PHP Version Compatibility
-- Original code targets PHP 7.1-7.3 but works with PHP 8.x
-- Use `--ignore-platform-reqs` flag with composer when PHP version constraints fail
-- CI environment (Travis) tests PHP 7.1, 7.2, 7.3 only
+- Library targets PHP 7.2+ through 8.x (updated in PR #6 for broader modern compatibility)
+- Use `--ignore-platform-reqs` flag with composer only if needed for edge cases
+- CI environment (Travis) tests PHP 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3
 
 ### Documentation Locations
 - Main library docs: `src/*/docs/README.md`
@@ -213,8 +213,7 @@ echo "\n=== All extended validations passed! ===\n";
 ## Troubleshooting
 
 ### Common Issues
-- "Platform requirements" error: Use `composer install --ignore-platform-reqs`
-- GitHub rate limiting during install: Wait or provide GitHub token when prompted
+- "Platform requirements" error: Use `composer install --ignore-platform-reqs` (rarely needed after PR #6)
 - Missing vendor directory: Run basic `composer install --no-dev --ignore-platform-reqs` first
 - Test failures: Verify PHP version compatibility and use manual validation scripts
 
@@ -223,11 +222,10 @@ echo "\n=== All extended validations passed! ===\n";
 - `extended_validate.php` - Comprehensive test including ReadDirectory and file operations
 
 ### CI Integration
-- Travis CI configured for PHP 7.1-7.3
-- Tests run via atoum with coverage reporting to Scrutinizer
+- Travis CI configured for PHP 7.2-8.3 (expanded in PR #6)
+- Tests run via atoum with simplified configuration (coverage disabled after PR #6)
 - Composer validation required for successful CI builds
 
 ## NEVER CANCEL Operations
-- `composer install --ignore-platform-reqs` -- Set timeout to 300+ seconds
-- `./vendor/bin/atoum` test runs -- Set timeout to 180+ seconds
-- Any Composer operations that prompt for GitHub tokens -- Wait for input or provide token
+- `composer install --ignore-platform-reqs` -- Set timeout to 180+ seconds (streamlined after PR #6)
+- `./vendor/bin/atoum` test runs -- Set timeout to 120+ seconds
