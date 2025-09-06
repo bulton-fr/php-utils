@@ -76,15 +76,14 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
     
-    # Quality tools will be enabled once dependencies are properly installed
-    # - name: Run PHPStan
-    #   run: ./vendor/bin/phpstan analyse --memory-limit=1G
-    #   if: always()
-    # 
-    # - name: Run PHP CS Fixer (dry-run)
-    #   run: ./vendor/bin/php-cs-fixer fix --dry-run --diff --verbose
-    #   if: always()
-    # 
-    # - name: Run PHPMD
-    #   run: ./vendor/bin/phpmd src text cleancode,codesize,controversial,design,naming,unusedcode
-    #   if: always()
+    - name: Run PHPStan
+      run: ./vendor/bin/phpstan analyse --memory-limit=1G
+      if: always()
+    
+    - name: Run PHP CS Fixer (dry-run)
+      run: ./vendor/bin/php-cs-fixer fix --dry-run --diff --verbose
+      if: always()
+    
+    - name: Run PHPMD
+      run: ./vendor/bin/phpmd src text cleancode,codesize,controversial,design,naming,unusedcode
+      if: always()
