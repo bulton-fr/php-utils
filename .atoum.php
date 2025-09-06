@@ -2,7 +2,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use mageekguy\atoum;
+use atoum\atoum;
 
 $script->addDefaultReport();
 
