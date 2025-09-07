@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1757246169" clover="68bd72d9b077d">
-  <project timestamp="1757246169" name="atoum code coverage">
+<coverage generated="1757246893" clover="68bd75ad257cf">
+  <project timestamp="1757246893" name="atoum code coverage">
     <package name="atoumCodeCoverage">
       <file name="BasicMsg.php" path="/home/runner/work/php-utils/php-utils/src/Cli/BasicMsg.php">
         <class name="BasicMsg">
