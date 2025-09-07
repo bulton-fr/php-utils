@@ -17,77 +17,77 @@ class FileManager
      * Exception code when the constructor's first parameter is not null and
      * is not an instance of \Psr\Log\LoggerInterface
      */
-    const EXCEP_NOT_LOGGER_INTERFACE = 202001;
+    public const EXCEP_NOT_LOGGER_INTERFACE = 202001;
 
     /**
      * Exception code when a file already exist
      *
      * @const EXCEP_FILE_EXIST
      */
-    const EXCEP_FILE_EXIST = 202002;
+    public const EXCEP_FILE_EXIST = 202002;
 
     /**
      * Exception code when a file not exist
      *
      * @const EXCEP_FILE_NOT_EXIST
      */
-    const EXCEP_FILE_NOT_EXIST = 202003;
+    public const EXCEP_FILE_NOT_EXIST = 202003;
 
     /**
      * Exception code when the symlink target not exist
      *
      * @const EXCEP_LINK_TARGET_NOT_FOUND
      */
-    const EXCEP_LINK_TARGET_NOT_FOUND = 202004;
+    public const EXCEP_LINK_TARGET_NOT_FOUND = 202004;
 
     /**
      * Exception code if the creating of the symlink failed
      *
      * @const EXCEP_LINK_CREATION_FAILED
      */
-    const EXCEP_LINK_CREATION_FAILED = 202005;
+    public const EXCEP_LINK_CREATION_FAILED = 202005;
 
     /**
      * Exception code when the deleting of the symlink failed
      *
      * @const EXCEP_LINK_REMOVE_FAILED
      */
-    const EXCEP_LINK_REMOVE_FAILED = 202006;
+    public const EXCEP_LINK_REMOVE_FAILED = 202006;
 
     /**
      * Exception code when a directory already exist
      *
      * @const EXCEP_DIRECTORY_EXIST
      */
-    const EXCEP_DIRECTORY_EXIST = 202007;
+    public const EXCEP_DIRECTORY_EXIST = 202007;
 
     /**
      * Exception code when the directory creation failed
      *
      * @const EXCEP_DIRECTORY_CREATION_FAILED
      */
-    const EXCEP_DIRECTORY_CREATION_FAILED = 202008;
+    public const EXCEP_DIRECTORY_CREATION_FAILED = 202008;
 
     /**
      * Exception code when the file to copy not exist
      *
      * @const EXCEP_COPY_SOURCE_NOT_FOUND
      */
-    const EXCEP_COPY_SOURCE_NOT_FOUND = 202009;
+    public const EXCEP_COPY_SOURCE_NOT_FOUND = 202009;
 
     /**
      * Exception code when a copy failed
      *
      * @const EXCEP_COPY_FAILED
      */
-    const EXCEP_COPY_FAILED = 202010;
+    public const EXCEP_COPY_FAILED = 202010;
 
     /**
      * Exception code when a directory deletion failed
      *
      * @const EXCEP_DIRECTORY_REMOVE_FAIL
      */
-    const EXCEP_DIRECTORY_REMOVE_FAIL = 202011;
+    public const EXCEP_DIRECTORY_REMOVE_FAIL = 202011;
 
     /**
      * The Logger instance where all debug message will be sent
@@ -106,14 +106,14 @@ class FileManager
     /**
      * Constructor
      *
-     * @param \Psr\Log\LoggerInterface|null $logger The Logger instance
+     * @param mixed $logger The Logger instance
      * where all debug message will be sent
      * @param string $loggerMsgType (default 'debug') The Logger level to use
      * to send messages
      */
     public function __construct($logger = null, string $loggerMsgType = 'debug')
     {
-        if ($logger !== null && $logger instanceof \Psr\Log\LoggerInterface === false) {
+        if ($logger !== null && !($logger instanceof \Psr\Log\LoggerInterface)) {
             throw new Exception(
                 'The constructor first parameter must be an instance of \Psr\Log\LoggerInterface.',
                 static::EXCEP_NOT_LOGGER_INTERFACE
@@ -159,7 +159,7 @@ class FileManager
         $msgType = $this->loggerMsgType;
         $this->logger->{$msgType}(...$args);
     }
-    
+
     /**
      * Create a symlink
      *
@@ -182,17 +182,17 @@ class FileManager
                 'linkFile'   => $linkFile
             ]
         );
-        
+
         if (file_exists($linkFile)) {
             throw new Exception(
-                'link file '.$linkFile.' already exist.',
+                'link file ' . $linkFile . ' already exist.',
                 static::EXCEP_FILE_EXIST
             );
         }
-        
+
         if (file_exists($linkTarget) === false) {
             throw new Exception(
-                'link target '.$linkTarget.' not found.',
+                'link target ' . $linkTarget . ' not found.',
                 static::EXCEP_LINK_TARGET_NOT_FOUND
             );
         }
@@ -209,16 +209,16 @@ class FileManager
                 $usedTarget = $linkTarget;
             }
         }
-        
+
         $status = symlink($usedTarget, $linkFile);
         if ($status === false) {
             throw new Exception(
-                'link create failed for '.$linkFile.' -> '.$usedTarget,
+                'link create failed for ' . $linkFile . ' -> ' . $usedTarget,
                 static::EXCEP_LINK_CREATION_FAILED
             );
         }
     }
-    
+
     /**
      * Remove a symlink
      *
@@ -232,23 +232,23 @@ class FileManager
             'FileManager - Remove symlink',
             ['linkFile' => $linkFile]
         );
-        
+
         if (file_exists($linkFile) === false) {
             throw new Exception(
-                'link file '.$linkFile.' not found.',
+                'link file ' . $linkFile . ' not found.',
                 static::EXCEP_FILE_NOT_EXIST
             );
         }
-        
+
         $status = unlink($linkFile);
         if ($status === false) {
             throw new Exception(
-                'link remove failed for '.$linkFile,
+                'link remove failed for ' . $linkFile,
                 static::EXCEP_LINK_REMOVE_FAILED
             );
         }
     }
-    
+
     /**
      * Create a new directory
      *
@@ -262,23 +262,23 @@ class FileManager
             'FileManager - Create directory',
             ['path' => $dirPath]
         );
-        
+
         if (file_exists($dirPath) === true) {
             throw new Exception(
-                'Directory '.$dirPath.' already exist.',
+                'Directory ' . $dirPath . ' already exist.',
                 static::EXCEP_DIRECTORY_EXIST
             );
         }
-        
+
         $status = mkdir($dirPath, 0755);
         if ($status === false) {
             throw new Exception(
-                'Directory '.$dirPath.' creation failed.',
+                'Directory ' . $dirPath . ' creation failed.',
                 static::EXCEP_DIRECTORY_CREATION_FAILED
             );
         }
     }
-    
+
     /**
      * Copy a file
      *
@@ -296,30 +296,30 @@ class FileManager
                 'target' => $target
             ]
         );
-        
+
         if (file_exists($target)) {
             throw new Exception(
-                'target file '.$target.' already exist.',
+                'target file ' . $target . ' already exist.',
                 static::EXCEP_FILE_EXIST
             );
         }
-        
+
         if (file_exists($source) === false) {
             throw new Exception(
-                'copy source '.$source.' not found.',
+                'copy source ' . $source . ' not found.',
                 static::EXCEP_COPY_SOURCE_NOT_FOUND
             );
         }
-        
+
         $status = copy($source, $target);
         if ($status === false) {
             throw new Exception(
-                'copy failed for '.$source.' -> '.$target,
+                'copy failed for ' . $source . ' -> ' . $target,
                 static::EXCEP_COPY_FAILED
             );
         }
     }
-    
+
     /**
      * Remove folders recursively
      *
@@ -335,25 +335,28 @@ class FileManager
             'FileManager - Remove files and directories',
             ['path' => $dirPath]
         );
-        
+
         $itemList = array_diff(scandir($dirPath), ['.', '..']);
-        
+
         foreach ($itemList as $itemName) {
-            $itemPath = $dirPath.'/'.$itemName;
-            
+            $itemPath = $dirPath . '/' . $itemName;
+
             if (is_dir($itemPath)) {
                 $this->removeRecursiveDirectory($itemPath);
-            } else {
-                unlink($itemPath);
+                continue;
             }
+
+            unlink($itemPath);
         }
-        
+
         $rmDirStatus = rmdir($dirPath);
         if ($rmDirStatus === false) {
             throw new Exception(
-                'Directory deletion has failed for '.$dirPath,
+                'Directory deletion has failed for ' . $dirPath,
                 static::EXCEP_DIRECTORY_REMOVE_FAIL
             );
         }
+
+        return true;
     }
 }

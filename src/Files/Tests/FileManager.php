@@ -19,7 +19,7 @@ class FileManager extends atoum
     protected $logger;
 
     protected $handler;
-    
+
     public function beforeTestMethod($testMethod)
     {
         $this->mockGenerator
@@ -28,9 +28,9 @@ class FileManager extends atoum
         ;
 
         $this->logger  = new Logger('FileManager-unit-test');
-        $this->handler = new TestHandler;
+        $this->handler = new TestHandler();
         $this->logger->pushHandler($this->handler);
-        
+
         if ($testMethod === 'testConstructAndGetters') {
             return;
         }
@@ -41,7 +41,7 @@ class FileManager extends atoum
     public function testConstructAndGetters()
     {
         $this->assert('test Files\FileManager::__construct without logger')
-            ->object($this->mock = new \mock\bultonFr\Utils\Files\FileManager)
+            ->object($this->mock = new \mock\bultonFr\Utils\Files\FileManager())
                 ->isInstanceOf('\bultonFr\Utils\Files\FileManager')
             ->variable($this->mock->getLogger())
                 ->isNull()
@@ -60,7 +60,7 @@ class FileManager extends atoum
 
         $this->assert('test Files\FileManager::__construct with a logger')
             ->exception(function () {
-                $this->mock = new \mock\bultonFr\Utils\Files\FileManager(new \stdClass);
+                $this->mock = new \mock\bultonFr\Utils\Files\FileManager(new \stdClass());
             })
                 ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_NOT_LOGGER_INTERFACE)
         ;
@@ -448,7 +448,7 @@ class FileManager extends atoum
                     ->once()
         ;
     }
-    
+
     public function testRemoveRecursiveDirectory()
     {
         $this->assert('test Files\FileManager::removeRecursiveDirectory without file')
@@ -456,7 +456,7 @@ class FileManager extends atoum
             ->and($this->function->unlink = true)
             ->and($this->function->rmdir = true)
             ->then
-            
+
             ->variable($this->mock->removeRecursiveDirectory('unit-test-dir'))
                 ->isNull()
             ->mock($this->mock)
@@ -465,14 +465,14 @@ class FileManager extends atoum
             ->function('unlink')
                 ->never()
         ;
-        
+
         $this->assert('test Files\FileManager::removeRecursiveDirectory with only file')
             ->if($this->function->scandir = ['.', '..', 'test.php', 'src.php'])
             ->and($this->function->is_dir = false)
             ->and($this->function->unlink = true)
             ->and($this->function->rmdir = true)
             ->then
-            
+
             ->variable($this->mock->removeRecursiveDirectory('unit-test-dir'))
                 ->isNull()
             ->mock($this->mock)
@@ -487,26 +487,26 @@ class FileManager extends atoum
                 ->wasCalledWithArguments('unit-test-dir/src.php')
                     ->once()
         ;
-        
+
         $this->assert('test Files\FileManager::removeRecursiveDirectory with file and directory')
             ->if($this->function->scandir = function ($path) {
                 if ($path === 'unit-test-dir') {
                     return ['.', '..', 'test.php', 'src', 'config.php'];
                 }
-                
+
                 return ['.', '..'];
             })
             ->and($this->function->is_dir = function ($path) {
                 if ($path === 'unit-test-dir/src') {
                     return true;
                 }
-                
+
                 return false;
             })
             ->and($this->function->unlink = true)
             ->and($this->function->rmdir = true)
             ->then
-            
+
             ->variable($this->mock->removeRecursiveDirectory('unit-test-dir'))
                 ->isNull()
             ->mock($this->mock)
@@ -536,7 +536,7 @@ class FileManager extends atoum
             ->and($this->function->unlink = true)
             ->and($this->function->rmdir = false)
             ->then
-            
+
             ->exception(function () {
                 $this->mock->removeRecursiveDirectory('unit-test-dir');
             })
@@ -547,20 +547,20 @@ class FileManager extends atoum
             ->function('unlink')
                 ->never()
         ;
-        
+
         $this->assert('test Files\FileManager::removeRecursiveDirectory with rmdir failed on sub-directory')
             ->if($this->function->scandir = function ($path) {
                 if ($path === 'unit-test-dir') {
                     return ['.', '..', 'test.php', 'src', 'config.php'];
                 }
-                
+
                 return ['.', '..'];
             })
             ->and($this->function->is_dir = function ($path) {
                 if ($path === 'unit-test-dir/src') {
                     return true;
                 }
-                
+
                 return false;
             })
             ->and($this->function->unlink = true)
@@ -568,11 +568,11 @@ class FileManager extends atoum
                 if ($path === 'unit-test-dir/src') {
                     return false;
                 }
-                
+
                 return true;
             })
             ->then
-            
+
             ->exception(function () {
                 $this->mock->removeRecursiveDirectory('unit-test-dir');
             })
