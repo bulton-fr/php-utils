@@ -20,10 +20,10 @@ composer require --dev phpstan/phpstan:^1.10
 ./vendor/bin/phpstan analyse --memory-limit=1G
 ```
 
-### PHP CS Fixer (Code Formatting)
+### PHP CodeSniffer (Code Style Checking)
 ```bash
-composer require --dev friendsofphp/php-cs-fixer:^3.0
-./vendor/bin/php-cs-fixer fix --dry-run --diff --verbose
+composer require --dev squizlabs/php_codesniffer:^3.7
+./vendor/bin/phpcs
 ```
 
 ### PHPMD (Mess Detector)
@@ -36,7 +36,7 @@ composer require --dev phpmd/phpmd:^2.13
 
 Pre-configured settings are available:
 - `phpstan.neon` - PHPStan configuration (level 5, excludes tests)
-- `.php-cs-fixer.php` - PHP CS Fixer configuration (PSR-12 + additional rules)
+- `phpcs.xml` - PHP CodeSniffer configuration (PSR-12 standard)
 
 ## Composer Scripts
 
