@@ -30,8 +30,13 @@ composer validate
 
 ### Bootstrap and Build Process
 - `composer install --no-dev --ignore-platform-reqs` -- Install production dependencies only (~5 seconds)
-- `composer install --ignore-platform-reqs` -- Install all dependencies including dev tools. Much faster since PR #6 eliminated GitHub API rate limits. Set timeout to 180+ seconds.
+- `COMPOSER_AUTH='{"github-oauth": {"github.com": "'$GH_COMPOSER_TOKEN'"}}' composer install --ignore-platform-reqs` -- Install all dependencies including dev tools using GitHub OAuth token. Set timeout to 300+ seconds.
 - Autoloader available at `vendor/autoload.php` after install
+
+### Security Requirements
+- **NEVER commit GitHub tokens or secrets in clear text** - this is a critical security vulnerability
+- Use environment variables or repository secrets for authentication
+- Available token: `$GH_COMPOSER_TOKEN` environment variable for Composer GitHub API authentication
 
 ### Running Tests
 - Full test suite uses atoum framework with simplified configuration (coverage disabled after PR #6)
@@ -40,7 +45,7 @@ composer validate
 
 ### Build Timing Expectations
 - Basic dependency install: 5-10 seconds
-- Full dependency install: 60-180 seconds (Streamlined after PR #6 - reduced from 28 to 4 packages)
+- Full dependency install with GitHub token: 120-300 seconds (44 packages including quality tools)
 - Manual functionality tests: <1 second
 - Composer validation: <5 seconds
 
@@ -177,8 +182,11 @@ echo "\n=== All extended validations passed! ===\n";
 ```
 .
 ├── .atoum.php              # Test configuration (coverage disabled after PR #6)
-├── .travis.yml             # CI configuration (PHP 7.2-8.3 after PR #6)
-├── composer.json           # Dependencies and autoload config (modernized in PR #6)
+├── .github/workflows/ci.yml # GitHub Actions CI configuration (PHP 7.2-8.3 after PR #10)
+├── .php-cs-fixer.php       # PHP CS Fixer configuration (PSR-12 standards)
+├── phpstan.neon            # PHPStan static analysis configuration (level 5)
+├── composer.json           # Dependencies and autoload config (includes quality tools after PR #10)
+├── QUALITY_TOOLS.md        # Documentation for quality tools usage
 ├── src/
 │   ├── Cli/
 │   │   ├── BasicMsg.php    # Colored terminal output utilities
@@ -213,19 +221,24 @@ echo "\n=== All extended validations passed! ===\n";
 ## Troubleshooting
 
 ### Common Issues
-- "Platform requirements" error: Use `composer install --ignore-platform-reqs` (rarely needed after PR #6)
+- "Platform requirements" error: Use `composer install --ignore-platform-reqs` with GitHub token authentication
+- GitHub API rate limits: Use `COMPOSER_AUTH='{"github-oauth": {"github.com": "'$GH_COMPOSER_TOKEN'"}}' composer install --ignore-platform-reqs`
 - Missing vendor directory: Run basic `composer install --no-dev --ignore-platform-reqs` first
 - Test failures: Verify PHP version compatibility and use manual validation scripts
 
-### Included Validation Scripts
-- `.github/copilot/validate.php` - Basic functionality test (CLI, FileManager, Paths)
-- `.github/copilot/extended_validate.php` - Comprehensive test including ReadDirectory and file operations
+### Quality Tools Available (PR #10)
+- `composer analyze` - Run PHPStan static analysis
+- `composer cs-check` - Check code style compliance (PSR-12)
+- `composer cs-fix` - Fix code style issues automatically
+- `composer phpmd` - Run PHP Mess Detector
+- `composer quality` - Run all quality checks
 
 ### CI Integration
-- Travis CI configured for PHP 7.2-8.3 (expanded in PR #6)
+- GitHub Actions configured for PHP 7.2-8.3 (migrated in PR #10)
 - Tests run via atoum with simplified configuration (coverage disabled after PR #6)
+- Quality tools integrated in CI workflow with GitHub token authentication
 - Composer validation required for successful CI builds
 
 ## NEVER CANCEL Operations
-- `composer install --ignore-platform-reqs` -- Set timeout to 180+ seconds (streamlined after PR #6)
+- `COMPOSER_AUTH='{"github-oauth": {"github.com": "'$GH_COMPOSER_TOKEN'"}}' composer install --ignore-platform-reqs` -- Set timeout to 300+ seconds (includes quality tools)
 - `./vendor/bin/atoum` test runs -- Set timeout to 120+ seconds

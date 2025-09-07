@@ -1,2 +1,7 @@
 vendor
 clover.xml
+coverage.xml
+
+# For copilot
+composer.lock
+auth.json
