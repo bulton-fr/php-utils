@@ -24,7 +24,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-version }}
         extensions: mbstring, intl
-        coverage: none
+        coverage: xdebug
     
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
@@ -46,6 +46,13 @@ jobs:
     
     - name: Run test suite
       run: ./vendor/bin/atoum -c .atoum.php +verbose
+
+    - name: Upload coverage to Codecov
+      if: matrix.php-version == '8.3'
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: false
 
   quality:
     runs-on: ubuntu-latest

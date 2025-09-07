@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1757246169" clover="68bd72d9b077d">
+  <project timestamp="1757246169" name="atoum code coverage">
+    <package name="atoumCodeCoverage">
+      <file name="BasicMsg.php" path="/home/runner/work/php-utils/php-utils/src/Cli/BasicMsg.php">
+        <class name="BasicMsg">
+          <metrics complexity="0" elements="0" coveredelements="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" methods="0" coveredmethods="0" testduration="0" testfailures="0" testpasses="0" testruns="0"/>
+        </class>
+        <metrics complexity="0" elements="0" coveredelements="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" methods="0" coveredmethods="0" testduration="0" testfailures="0" testpasses="0" testruns="0" classes="1" loc="0" ncloc="0"/>
+      </file>
+      <file name="FileManager.php" path="/home/runner/work/php-utils/php-utils/src/Files/FileManager.php">
+        <class name="FileManager">
+          <metrics complexity="0" elements="0" coveredelements="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" methods="0" coveredmethods="0" testduration="0" testfailures="0" testpasses="0" testruns="0"/>
+        </class>
+        <metrics complexity="0" elements="0" coveredelements="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" methods="0" coveredmethods="0" testduration="0" testfailures="0" testpasses="0" testruns="0" classes="1" loc="0" ncloc="0"/>
+      </file>
+      <file name="Paths.php" path="/home/runner/work/php-utils/php-utils/src/Files/Paths.php">
+        <class name="Paths">
+          <metrics complexity="0" elements="0" coveredelements="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" methods="0" coveredmethods="0" testduration="0" testfailures="0" testpasses="0" testruns="0"/>
+        </class>
+        <metrics complexity="0" elements="0" coveredelements="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" methods="0" coveredmethods="0" testduration="0" testfailures="0" testpasses="0" testruns="0" classes="1" loc="0" ncloc="0"/>
+      </file>
+      <file name="ReadDirectory.php" path="/home/runner/work/php-utils/php-utils/src/Files/ReadDirectory.php">
+        <class name="ReadDirectory">
+          <metrics complexity="0" elements="0" coveredelements="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" methods="0" coveredmethods="0" testduration="0" testfailures="0" testpasses="0" testruns="0"/>
+        </class>
+        <metrics complexity="0" elements="0" coveredelements="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" methods="0" coveredmethods="0" testduration="0" testfailures="0" testpasses="0" testruns="0" classes="1" loc="0" ncloc="0"/>
+      </file>
+      <metrics complexity="0" elements="0" coveredelements="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" methods="0" coveredmethods="0" testduration="0" testfailures="0" testpasses="0" testruns="0" classes="4" loc="0" ncloc="0" files="4"/>
+    </package>
+    <metrics complexity="0" elements="0" coveredelements="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" methods="0" coveredmethods="0" testduration="0" testfailures="0" testpasses="0" testruns="0" classes="4" loc="0" ncloc="0" files="4" packages="1"/>
+  </project>
+</coverage>
