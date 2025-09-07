@@ -39,7 +39,7 @@ jobs:
           ${{ runner.os }}-php-${{ matrix.php-version }}-
 
     - name: Configure GitHub token for Composer
-      run: composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+      run: composer config github-oauth.github.com ${{ secrets.GH_COMPOSER_TOKEN }}
     
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
@@ -71,7 +71,7 @@ jobs:
           ${{ runner.os }}-php-quality-
 
     - name: Configure GitHub token for Composer
-      run: composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+      run: composer config github-oauth.github.com ${{ secrets.GH_COMPOSER_TOKEN }}
     
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
