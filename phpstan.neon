@@ -4,8 +4,3 @@ parameters:
         - src
     excludePaths:
         - src/*/Tests/*
-    ignoreErrors:
-        # Allow mixed types in legacy code for now
-        - '#Parameter .* of .* has no typehint specified#'
-        - '#Method .* has no return typehint specified#'
-        - '#Property .* has no typehint specified#'

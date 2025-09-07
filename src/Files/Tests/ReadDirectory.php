@@ -11,7 +11,7 @@ class ReadDirectory extends atoum
 {
     protected $mock;
     protected $listFiles = [];
-    
+
     public function beforeTestMethod($testMethod)
     {
         $this->mockGenerator
@@ -19,12 +19,12 @@ class ReadDirectory extends atoum
             ->makeVisible('dirAction')
             ->generate('bultonFr\Utils\Files\ReadDirectory')
         ;
-        
+
         if ($testMethod !== 'testConstructAndGetters') {
             $this->mock = new \mock\bultonFr\Utils\Files\ReadDirectory($this->listFiles);
         }
     }
-    
+
     public function testConstructAndGetters()
     {
         $this->assert('test Files\ReadDirectory::__construct')
@@ -36,7 +36,7 @@ class ReadDirectory extends atoum
                 ->isEqualTo(['.', '..'])
         ;
     }
-    
+
     public function testRun()
     {
         $this->assert('test Files\ReadDirectory::run with opendir fail')
@@ -47,7 +47,7 @@ class ReadDirectory extends atoum
             })
                 ->hasCode(\bultonFr\Utils\Files\ReadDirectory::EXCEP_RUN_OPENDIR)
         ;
-        
+
         $this->assert('test Files\ReadDirectory::run')
             ->given($itemActionListFiles = [])
             ->given($isDirListCheck = [])
@@ -66,37 +66,37 @@ class ReadDirectory extends atoum
                 $pathToFile
             ) use (&$itemActionListFiles) {
                 $itemActionListFiles[] = $fileName;
-                
+
                 if ($fileName === 'Application.php') {
                     return 'break'; //So "Config.php" will not be read
                 }
-                
+
                 //This if is extracted from original class
                 if (in_array($fileName, ['.', '..'])) {
                     return 'continue';
                 }
-                
+
                 return '';
             })
             ->and($this->function->is_dir = function ($filename) use (&$isDirListCheck) {
                 $isDirListCheck[] = $filename;
-                
+
                 //"." and ".." is ignored before
-                if ($filename === __DIR__.'/core') {
+                if ($filename === __DIR__ . '/core') {
                     return true;
-                } elseif ($filename === __DIR__.'/memcache') {
+                } elseif ($filename === __DIR__ . '/memcache') {
                     return true;
                 }
-                
+
                 return false;
             })
             ->and($this->calling($this->mock)->dirAction = function ($dirPath) use (&$dirActionListPath) {
                 $dirActionListPath[] = $dirPath;
-                
+
                 return true;
             })
             ->then
-            
+
             ->variable($this->mock->run(__DIR__))
                 ->isNull()
             ->array($itemActionListFiles)
@@ -110,17 +110,17 @@ class ReadDirectory extends atoum
                 //Config.php not here because Application.php return "break"
             ->array($isDirListCheck)
                 ->isEqualTo([
-                    __DIR__.'/core',
-                    __DIR__.'/memcache'
+                    __DIR__ . '/core',
+                    __DIR__ . '/memcache'
                 ])
             ->array($dirActionListPath)
                 ->isEqualTo([
-                    __DIR__.'/core',
-                    __DIR__.'/memcache'
+                    __DIR__ . '/core',
+                    __DIR__ . '/memcache'
                 ])
         ;
     }
-    
+
     public function testItemAction()
     {
         $this->assert('test Files\ReadDirectory::itemAction for ignored path')
@@ -129,13 +129,13 @@ class ReadDirectory extends atoum
             ->string($this->invoke($this->mock)->itemAction('..', __DIR__))
                 ->isEqualTo('continue')
         ;
-        
+
         $this->assert('test Files\ReadDirectory::itemAction for not ignored path')
             ->string($this->invoke($this->mock)->itemAction('Application.php', __DIR__))
                 ->isEmpty()
         ;
     }
-    
+
     public function testDirAction()
     {
         //Not tested because we can't mock the content.

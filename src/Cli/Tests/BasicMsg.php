@@ -19,7 +19,7 @@ class BasicMsg extends atoum
     {
         $testedMethodName = lcfirst(substr($methodName, 4));
 
-        $this->mock = new \mock\bultonFr\Utils\Cli\BasicMsg;
+        $this->mock = new \mock\bultonFr\Utils\Cli\BasicMsg();
         $callMethod = function (...$args) use ($testedMethodName) {
             return static::{$testedMethodName}(...$args);
         };
@@ -144,7 +144,7 @@ class BasicMsg extends atoum
             ->output(function () {
                 \bultonFr\Utils\Cli\BasicMsg::displayMsgNL('hi from unit-test !');
             })
-                ->isEqualTo('hi from unit-test !'."\n")
+                ->isEqualTo('hi from unit-test !' . "\n")
             /*
              * Does not seem to see static method :/
              * Method 'mock\bultonFr\Utils\Cli\BasicMsg::displayMsg()' does not exist

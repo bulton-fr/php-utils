@@ -6,8 +6,8 @@ use Exception;
 
 class Paths
 {
-    const EXCEP_ABS_REL_SAME_PATH = 203001;
-    const EXCEP_ABS_REL_NOT_COMMON = 203002;
+    public const EXCEP_ABS_REL_SAME_PATH = 203001;
+    public const EXCEP_ABS_REL_NOT_COMMON = 203002;
 
     /**
      * Resolve the relative path for two abslute path

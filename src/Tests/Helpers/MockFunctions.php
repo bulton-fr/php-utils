@@ -17,7 +17,7 @@ trait MockFunctions
      */
     protected function createFctMock()
     {
-        return new class() {
+        return new class () {
             public $callIdx = -1;
             public $returnedValues = [];
             public $mockedFct;
