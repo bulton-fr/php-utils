@@ -341,7 +341,7 @@ class FileManager
      *
      * @param string $dirPath Path to directory to remove
      *
-     * @return boolean
+     * @return void
      */
     public function removeRecursiveDirectory(string $dirPath)
     {
@@ -370,7 +370,5 @@ class FileManager
                 static::EXCEP_DIRECTORY_REMOVE_FAIL
             );
         }
-
-        return true;
     }
 }
