@@ -3,9 +3,11 @@
 namespace bultonFr\Utils\Cli\Tests\units;
 
 use atoum;
+use bultonFr\Utils\Cli\BasicMsg as BasicMsgSrc;
 
 /**
  * @engine isolate
+ * @SuppressWarnings(PHPMD.StaticAccess)
  */
 class BasicMsg extends atoum
 {
@@ -15,11 +17,15 @@ class BasicMsg extends atoum
 
     protected $methodCaller;
 
+    /**
+     * To avoid PHPMD warning on new mock class
+     * @SuppressWarnings(PHPMD.MissingImport)
+     */
     public function beforeTestMethod($methodName)
     {
         $testedMethodName = lcfirst(substr($methodName, 4));
 
-        $this->mock = new \mock\bultonFr\Utils\Cli\BasicMsg;
+        $this->mock = new \mock\bultonFr\Utils\Cli\BasicMsg();
         $callMethod = function (...$args) use ($testedMethodName) {
             return static::{$testedMethodName}(...$args);
         };
@@ -114,21 +120,21 @@ class BasicMsg extends atoum
 
         $this->assert('test Cli::displayMsg with only a message')
             ->output(function () {
-                \bultonFr\Utils\Cli\BasicMsg::displayMsg('hi from unit-test !');
+                BasicMsgSrc::displayMsg('hi from unit-test !');
             })
                 ->isEqualTo('hi from unit-test !')
         ;
 
         $this->assert('test Cli::displayMsg with a color')
             ->output(function () {
-                \bultonFr\Utils\Cli\BasicMsg::displayMsg('hi from unit-test !', 'yellow');
+                BasicMsgSrc::displayMsg('hi from unit-test !', 'yellow');
             })
                 ->isEqualTo("\033[0;33mhi from unit-test !\033[0m")
         ;
 
         $this->assert('test Cli::displayMsg with a color and style')
             ->output(function () {
-                \bultonFr\Utils\Cli\BasicMsg::displayMsg('hi from unit-test !', 'green', 'bold');
+                BasicMsgSrc::displayMsg('hi from unit-test !', 'green', 'bold');
             })
                 ->isEqualTo("\033[1;32mhi from unit-test !\033[0m")
         ;
@@ -142,9 +148,9 @@ class BasicMsg extends atoum
 
         $this->assert('test Cli::displayMsgNL with only a message')
             ->output(function () {
-                \bultonFr\Utils\Cli\BasicMsg::displayMsgNL('hi from unit-test !');
+                BasicMsgSrc::displayMsgNL('hi from unit-test !');
             })
-                ->isEqualTo('hi from unit-test !'."\n")
+                ->isEqualTo('hi from unit-test !' . "\n")
             /*
              * Does not seem to see static method :/
              * Method 'mock\bultonFr\Utils\Cli\BasicMsg::displayMsg()' does not exist
@@ -158,14 +164,14 @@ class BasicMsg extends atoum
 
         $this->assert('test Cli::displayMsgNL with a color')
             ->output(function () {
-                \bultonFr\Utils\Cli\BasicMsg::displayMsgNL('hi from unit-test !', 'yellow');
+                BasicMsgSrc::displayMsgNL('hi from unit-test !', 'yellow');
             })
                 ->isEqualTo("\033[0;33mhi from unit-test !\033[0m\n")
         ;
 
         $this->assert('test Cli::displayMsgNL with a color and style')
             ->output(function () {
-                \bultonFr\Utils\Cli\BasicMsg::displayMsgNL('hi from unit-test !', 'green', 'bold');
+                BasicMsgSrc::displayMsgNL('hi from unit-test !', 'green', 'bold');
             })
                 ->isEqualTo("\033[1;32mhi from unit-test !\033[0m\n")
         ;

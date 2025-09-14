@@ -19,8 +19,8 @@ class ReadDirectory
      *
      * @const EXCEP_RUN_OPENDIR
      */
-    const EXCEP_RUN_OPENDIR = 201001;
-    
+    public const EXCEP_RUN_OPENDIR = 201001;
+
     /**
      * A list of path. The system not add all path found automaticaly, you need
      * to add it in a override of itemAction method.
@@ -65,7 +65,7 @@ class ReadDirectory
     {
         return $this->ignore;
     }
-    
+
     /**
      * Read all the directories
      *
@@ -79,7 +79,7 @@ class ReadDirectory
         if ($dir === false) {
             throw new Exception(
                 'The directory can not be open. '
-                .'See php error log for more informations.',
+                . 'See php error log for more informations.',
                 self::EXCEP_RUN_OPENDIR
             );
         }
@@ -92,9 +92,9 @@ class ReadDirectory
             } elseif ($action === 'break') {
                 break;
             }
-            
-            if (is_dir($path.'/'.$file)) {
-                $this->dirAction($path.'/'.$file);
+
+            if (is_dir($path . '/' . $file)) {
+                $this->dirAction($path . '/' . $file);
                 continue;
             }
         }
@@ -106,19 +106,22 @@ class ReadDirectory
      * Action to do when an item (file or directory) is found.
      *
      * @param string $fileName The file's name
-     * @param string $pathToFile The file's path
+     * @param string $pathToFile The file's path (unused in base implementation)
      *
      * @return string
+     *
+     * To avoid PHPMD warning on unused parameter $pathToFile (usefull for override methods)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function itemAction(string $fileName, string $pathToFile): string
     {
         if (in_array($fileName, $this->ignore)) {
             return 'continue';
         }
-        
+
         return '';
     }
-    
+
     /**
      * Recall ReadDirectory to read this directory
      * This is to avoid having the recursion error
@@ -129,7 +132,7 @@ class ReadDirectory
      */
     protected function dirAction(string $dirPath)
     {
-        $read = new static($this->list);
+        $read = new self($this->list);
         $read->run($dirPath);
     }
 }

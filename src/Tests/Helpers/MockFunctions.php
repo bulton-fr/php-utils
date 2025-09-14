@@ -1,6 +1,7 @@
 <?php
 
 namespace bultonFr\Utils\Tests\Helpers;
+use Exception;
 
 /**
  * Methods to create a mock of a function with multiple values
@@ -14,10 +15,13 @@ trait MockFunctions
      * for mocked the function
      *
      * @return anonymous@class
+     *
+     * To avoid PHPMD warning on unused parameter $pathToFile (usefull for override methods)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function createFctMock()
     {
-        return new class() {
+        return new class () {
             public $callIdx = -1;
             public $returnedValues = [];
             public $mockedFct;
@@ -29,7 +33,7 @@ trait MockFunctions
                     $that->callIdx++;
 
                     if (!isset($that->returnedValues[$that->callIdx])) {
-                        throw new \Exception('No value defined for this call');
+                        throw new Exception('No value defined for this call');
                     }
 
                     return $that->returnedValues[$that->callIdx];
