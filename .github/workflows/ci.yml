@@ -63,14 +63,7 @@ jobs:
       run: |
         curl -X POST "https://gh-badges.bulton.fr/webhook" \
           -H "Content-Type: application/json" \
-          -d '{
-            "secure_key": "${{ secrets.GH_BADGE_SECURE_KEY }}",
-            "repository": "${{ github.repository }}",
-            "branch": "${{ github.ref_name }}",
-            "workflow_name": "${{ github.workflow }}",
-            "job_name": "${{ github.job }}",
-            "status": "${{ job.status }}"
-          }"
+          -d "{\"secure_key\":\"${{ secrets.GH_BADGE_SECURE_KEY }}\",\"repository\":\"${{ github.repository }}\",\"branch\":\"${{ github.ref_name }}\",\"workflow_name\":\"${{ github.workflow }}\",\"job_name\":\"${{ github.job }}\",\"status\":\"${{ job.status }}\"}"
 
   phpstan:
     runs-on: ubuntu-latest
@@ -109,14 +102,7 @@ jobs:
       run: |
         curl -X POST "https://gh-badges.bulton.fr/webhook" \
           -H "Content-Type: application/json" \
-          -d '{
-            "secure_key": "${{ secrets.GH_BADGE_SECURE_KEY }}",
-            "repository": "${{ github.repository }}",
-            "branch": "${{ github.ref_name }}",
-            "workflow_name": "${{ github.workflow }}",
-            "job_name": "${{ github.job }}",
-            "status": "${{ job.status }}"
-          }"
+          -d "{\"secure_key\":\"${{ secrets.GH_BADGE_SECURE_KEY }}\",\"repository\":\"${{ github.repository }}\",\"branch\":\"${{ github.ref_name }}\",\"workflow_name\":\"${{ github.workflow }}\",\"job_name\":\"${{ github.job }}\",\"status\":\"${{ job.status }}\"}"
 
   phpcs:
     runs-on: ubuntu-latest
@@ -155,14 +141,7 @@ jobs:
       run: |
         curl -X POST "https://gh-badges.bulton.fr/webhook" \
           -H "Content-Type: application/json" \
-          -d '{
-            "secure_key": "${{ secrets.GH_BADGE_SECURE_KEY }}",
-            "repository": "${{ github.repository }}",
-            "branch": "${{ github.ref_name }}",
-            "workflow_name": "${{ github.workflow }}",
-            "job_name": "${{ github.job }}",
-            "status": "${{ job.status }}"
-          }"
+          -d "{\"secure_key\":\"${{ secrets.GH_BADGE_SECURE_KEY }}\",\"repository\":\"${{ github.repository }}\",\"branch\":\"${{ github.ref_name }}\",\"workflow_name\":\"${{ github.workflow }}\",\"job_name\":\"${{ github.job }}\",\"status\":\"${{ job.status }}\"}"
 
   phpmd:
     runs-on: ubuntu-latest
@@ -201,11 +180,4 @@ jobs:
       run: |
         curl -X POST "https://gh-badges.bulton.fr/webhook" \
           -H "Content-Type: application/json" \
-          -d '{
-            "secure_key": "${{ secrets.GH_BADGE_SECURE_KEY }}",
-            "repository": "${{ github.repository }}",
-            "branch": "${{ github.ref_name }}",
-            "workflow_name": "${{ github.workflow }}",
-            "job_name": "${{ github.job }}",
-            "status": "${{ job.status }}"
-          }"
+          -d "{\"secure_key\":\"${{ secrets.GH_BADGE_SECURE_KEY }}\",\"repository\":\"${{ github.repository }}\",\"branch\":\"${{ github.ref_name }}\",\"workflow_name\":\"${{ github.workflow }}\",\"job_name\":\"${{ github.job }}\",\"status\":\"${{ job.status }}\"}"
