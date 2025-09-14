@@ -1,0 +1,40 @@
+name: Notify Badge Service
+
+on:
+  workflow_call:
+    inputs:
+      repository:
+        required: true
+        type: string
+      branch:
+        required: true
+        type: string
+      workflow_name:
+        required: true
+        type: string
+      job_name:
+        required: true
+        type: string
+      status:
+        required: true
+        type: string
+    secrets:
+      GH_BADGE_SECURE_KEY:
+        required: true
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify badge service
+        run: |
+          curl -X POST "https://gh-badges.bulton.fr/webhook" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "secure_key": "${{ secrets.GH_BADGE_SECURE_KEY }}",
+              "repository": "${{ inputs.repository }}",
+              "branch": "${{ inputs.branch }}",
+              "workflow_name": "${{ inputs.workflow_name }}",
+              "job_name": "${{ inputs.job_name }}",
+              "status": "${{ inputs.status }}"
+            }'
