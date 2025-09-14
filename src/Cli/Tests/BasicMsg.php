@@ -7,6 +7,7 @@ use bultonFr\Utils\Cli\BasicMsg as BasicMsgSrc;
 
 /**
  * @engine isolate
+ * @SuppressWarnings(PHPMD.StaticAccess)
  */
 class BasicMsg extends atoum
 {

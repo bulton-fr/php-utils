@@ -7,6 +7,7 @@ use bultonFr\Utils\Files\Paths as PathsSrc;
 
 /**
  * @engine isolate
+ * @SuppressWarnings(PHPMD.StaticAccess)
  */
 class Paths extends atoum
 {

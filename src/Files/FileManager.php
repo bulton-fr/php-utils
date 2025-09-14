@@ -125,6 +125,17 @@ class FileManager
     }
 
     /**
+     * Obtain the Paths class
+     * Like that, allow override Path class
+     *
+     * @return string
+     */
+    public function obtainPaths(): string
+    {
+        return Paths::class;
+    }
+
+    /**
      * Get the value of logger
      *
      * @return \Psr\Log\LoggerInterface|null
@@ -169,6 +180,8 @@ class FileManager
      *  to use a relative path for target.
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
     public function createSymLink(
         string $linkTarget,
@@ -200,7 +213,8 @@ class FileManager
         $usedTarget = $linkTarget;
         if ($tryRelative === true) {
             try {
-                $usedTarget = Paths::absoluteToRelative($linkTarget, $linkFile);
+                $pathsClass = $this->obtainPaths();
+                $usedTarget = $pathsClass::absoluteToRelative($linkTarget, $linkFile);
                 $this->sendMsgInLogger(
                     'FileManager - Create symlink - Use relative path',
                     ['target' => $usedTarget]
