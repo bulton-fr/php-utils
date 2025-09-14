@@ -109,6 +109,9 @@ class ReadDirectory
      * @param string $pathToFile The file's path (unused in base implementation)
      *
      * @return string
+     *
+     * To avoid PHPMD warning on unused parameter $pathToFile (usefull for override methods)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function itemAction(string $fileName, string $pathToFile): string
     {

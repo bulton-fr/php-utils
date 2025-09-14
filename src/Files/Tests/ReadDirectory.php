@@ -3,6 +3,7 @@
 namespace bultonFr\Utils\Files\Tests\units;
 
 use atoum;
+use \bultonFr\Utils\Files\ReadDirectory as ReadDirectorySrc;
 
 /**
  * @engine isolate
@@ -12,6 +13,10 @@ class ReadDirectory extends atoum
     protected $mock;
     protected $listFiles = [];
 
+    /**
+     * To avoid PHPMD warning on new mock class
+     * @SuppressWarnings(PHPMD.MissingImport)
+     */
     public function beforeTestMethod($testMethod)
     {
         $this->mockGenerator
@@ -25,6 +30,10 @@ class ReadDirectory extends atoum
         }
     }
 
+    /**
+     * To avoid PHPMD warning on new mock class
+     * @SuppressWarnings(PHPMD.MissingImport)
+     */
     public function testConstructAndGetters()
     {
         $this->assert('test Files\ReadDirectory::__construct')
@@ -37,6 +46,10 @@ class ReadDirectory extends atoum
         ;
     }
 
+    /**
+     * To avoid PHPMD warning on unused parameter $pathToFile (usefull for override methods)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function testRun()
     {
         $this->assert('test Files\ReadDirectory::run with opendir fail')
@@ -45,7 +58,7 @@ class ReadDirectory extends atoum
             ->exception(function () {
                 $this->mock->run(__DIR__);
             })
-                ->hasCode(\bultonFr\Utils\Files\ReadDirectory::EXCEP_RUN_OPENDIR)
+                ->hasCode(ReadDirectorySrc::EXCEP_RUN_OPENDIR)
         ;
 
         $this->assert('test Files\ReadDirectory::run')

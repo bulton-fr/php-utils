@@ -3,12 +3,16 @@
 namespace bultonFr\Utils\Files\Tests\units;
 
 use atoum;
+use bultonFr\Utils\Files\FileManager as FileManagerSrc;
 use bultonFr\Utils\Tests\Helpers\MockFunctions;
 use Monolog\Logger;
 use Monolog\Handler\TestHandler;
 
 /**
  * @engine isolate
+ *
+ * To avoid PHPMD warning on new mock class
+ * @SuppressWarnings(PHPMD.MissingImport)
  */
 class FileManager extends atoum
 {
@@ -109,6 +113,9 @@ class FileManager extends atoum
         ;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testCreateSymlink()
     {
         $this->assert('test Files\FileManager::createSymlink - prepare')
@@ -135,7 +142,7 @@ class FileManager extends atoum
             ->boolean($this->handler->hasDebug('FileManager - Create symlink'))
                 ->isTrue()
             ->array($records = $this->handler->getRecords())
-            ->array($context = reset($records)['context'])
+            ->array(reset($records)['context'])
                 ->isEqualTo([
                     'linkTarget' => 'target/file',
                     'linkFile'   => 'dest/file'
@@ -159,12 +166,12 @@ class FileManager extends atoum
             ->boolean($this->handler->hasDebug('FileManager - Create symlink - Use relative path'))
                 ->isTrue()
             ->array($records = $this->handler->getRecords())
-            ->array($context = reset($records)['context'])
+            ->array(reset($records)['context'])
                 ->isEqualTo([
                     'linkTarget' => '/var/www/target/file',
                     'linkFile'   => '/var/www/dest/file'
                 ])
-            ->array($context = end($records)['context'])
+            ->array(end($records)['context'])
                 ->isEqualTo([
                     'target' => '../target/file'
                 ])
@@ -198,7 +205,7 @@ class FileManager extends atoum
             ->exception(function () {
                 $this->mock->createSymlink('target/file', 'dest/file');
             })
-                ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_FILE_EXIST)
+                ->hasCode(FileManagerSrc::EXCEP_FILE_EXIST)
             ->function('file_exists')
                 ->wasCalledWithArguments('target/file')
                     ->never()
@@ -219,7 +226,7 @@ class FileManager extends atoum
             ->exception(function () {
                 $this->mock->createSymlink('target/file', 'dest/file');
             })
-                ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_LINK_TARGET_NOT_FOUND)
+                ->hasCode(FileManagerSrc::EXCEP_LINK_TARGET_NOT_FOUND)
             ->function('file_exists')
                 ->wasCalledWithArguments('target/file')
                     ->once()
@@ -240,7 +247,7 @@ class FileManager extends atoum
             ->exception(function () {
                 $this->mock->createSymlink('target/file', 'dest/file');
             })
-                ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_LINK_CREATION_FAILED)
+                ->hasCode(FileManagerSrc::EXCEP_LINK_CREATION_FAILED)
             ->function('file_exists')
                 ->wasCalledWithArguments('target/file')
                     ->once()
@@ -269,7 +276,7 @@ class FileManager extends atoum
             ->boolean($this->handler->hasDebug('FileManager - Remove symlink'))
                 ->isTrue()
             ->array($records = $this->handler->getRecords())
-            ->array($context = reset($records)['context'])
+            ->array(reset($records)['context'])
                 ->isEqualTo(['linkFile' => 'dest/file'])
         ;
 
@@ -280,7 +287,7 @@ class FileManager extends atoum
             ->exception(function () {
                 $this->mock->removeSymlink('dest/file');
             })
-                ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_FILE_NOT_EXIST)
+                ->hasCode(FileManagerSrc::EXCEP_FILE_NOT_EXIST)
             ->function('file_exists')
                 ->wasCalledWithArguments('dest/file')
                     ->once()
@@ -296,7 +303,7 @@ class FileManager extends atoum
             ->exception(function () {
                 $this->mock->removeSymlink('dest/file');
             })
-                ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_LINK_REMOVE_FAILED)
+                ->hasCode(FileManagerSrc::EXCEP_LINK_REMOVE_FAILED)
             ->function('file_exists')
                 ->wasCalledWithArguments('dest/file')
                     ->once()
@@ -323,7 +330,7 @@ class FileManager extends atoum
             ->boolean($this->handler->hasDebug('FileManager - Create directory'))
                 ->isTrue()
             ->array($records = $this->handler->getRecords())
-            ->array($context = reset($records)['context'])
+            ->array(reset($records)['context'])
                 ->isEqualTo(['path' => 'dest/dir'])
         ;
 
@@ -334,7 +341,7 @@ class FileManager extends atoum
             ->exception(function () {
                 $this->mock->createDirectory('dest/dir');
             })
-                ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_DIRECTORY_EXIST)
+                ->hasCode(FileManagerSrc::EXCEP_DIRECTORY_EXIST)
             ->function('file_exists')
                 ->wasCalledWithArguments('dest/dir')
                     ->once()
@@ -350,7 +357,7 @@ class FileManager extends atoum
         ->exception(function () {
             $this->mock->createDirectory('dest/dir');
         })
-            ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_DIRECTORY_CREATION_FAILED)
+            ->hasCode(FileManagerSrc::EXCEP_DIRECTORY_CREATION_FAILED)
         ->function('file_exists')
             ->wasCalledWithArguments('dest/dir')
                 ->once()
@@ -384,7 +391,7 @@ class FileManager extends atoum
             ->boolean($this->handler->hasDebug('FileManager - Copy file'))
                 ->isTrue()
             ->array($records = $this->handler->getRecords())
-            ->array($context = reset($records)['context'])
+            ->array(reset($records)['context'])
                 ->isEqualTo([
                     'source' => 'source/file',
                     'target' => 'dest/file'
@@ -399,7 +406,7 @@ class FileManager extends atoum
             ->exception(function () {
                 $this->mock->copyFile('source/file', 'dest/file');
             })
-                ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_FILE_EXIST)
+                ->hasCode(FileManagerSrc::EXCEP_FILE_EXIST)
             ->function('file_exists')
                 ->wasCalledWithArguments('source/file')
                     ->never()
@@ -418,7 +425,7 @@ class FileManager extends atoum
             ->exception(function () {
                 $this->mock->copyFile('source/file', 'dest/file');
             })
-                ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_COPY_SOURCE_NOT_FOUND)
+                ->hasCode(FileManagerSrc::EXCEP_COPY_SOURCE_NOT_FOUND)
             ->function('file_exists')
                 ->wasCalledWithArguments('source/file')
                     ->once()
@@ -437,7 +444,7 @@ class FileManager extends atoum
             ->exception(function () {
                 $this->mock->copyFile('source/file', 'dest/file');
             })
-                ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_COPY_FAILED)
+                ->hasCode(FileManagerSrc::EXCEP_COPY_FAILED)
             ->function('file_exists')
                 ->wasCalledWithArguments('source/file')
                     ->once()
@@ -449,6 +456,9 @@ class FileManager extends atoum
         ;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testRemoveRecursiveDirectory()
     {
         $this->assert('test Files\FileManager::removeRecursiveDirectory without file')
@@ -540,7 +550,7 @@ class FileManager extends atoum
             ->exception(function () {
                 $this->mock->removeRecursiveDirectory('unit-test-dir');
             })
-                ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_DIRECTORY_REMOVE_FAIL)
+                ->hasCode(FileManagerSrc::EXCEP_DIRECTORY_REMOVE_FAIL)
             ->mock($this->mock)
                 ->call('removeRecursiveDirectory')
                     ->once()
@@ -576,7 +586,7 @@ class FileManager extends atoum
             ->exception(function () {
                 $this->mock->removeRecursiveDirectory('unit-test-dir');
             })
-                ->hasCode(\bultonFr\Utils\Files\FileManager::EXCEP_DIRECTORY_REMOVE_FAIL)
+                ->hasCode(FileManagerSrc::EXCEP_DIRECTORY_REMOVE_FAIL)
             ->mock($this->mock)
                 ->call('removeRecursiveDirectory')
                     ->withArguments('unit-test-dir/src')
